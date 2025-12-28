@@ -1,0 +1,41 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<h2>Create Your Account</h2>
+
+<form method='post'>
+    {% csrf_token %}
+    
+    <div style='margin: 1rem 0;'>
+        <label><strong>Username:</strong></label><br>
+        <input type='text' name='username' required style='padding: 0.5rem; width: 300px;'>
+    </div>
+    
+    <div style='margin: 1rem 0;'>
+        <label><strong>Email:</strong></label><br>
+        <input type='email' name='email' required style='padding: 0.5rem; width: 300px;'>
+    </div>
+    
+    <div style='margin: 1rem 0;'>
+        <label><strong>Password:</strong></label><br>
+        <input type='password' name='password1' required style='padding: 0.5rem; width: 300px;'>
+    </div>
+    
+    <div style='margin: 1rem 0;'>
+        <label><strong>Confirm Password:</strong></label><br>
+        <input type='password' name='password2' required style='padding: 0.5rem; width: 300px;'>
+    </div>
+    
+    <div style='margin: 1rem 0;'>
+        <label><strong>I am a:</strong></label><br>
+        <select name='role' style='padding: 0.5rem; width: 300px;'>
+            <option value='buyer'>Buyer - I want to purchase products</option>
+            <option value='farmer'>Farmer - I want to sell products</option>
+        </select>
+    </div>
+    
+    <button type='submit' style='padding: 0.5rem 2rem; background: #2e7d32; color: white; border: none; cursor: pointer;'>Register</button>
+</form>
+
+<p style='margin-top: 2rem;'>Already have an account? <a href='/accounts/login/'>Login here</a></p>
+{% endblock %}

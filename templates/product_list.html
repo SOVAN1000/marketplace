@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Agricultural Products</h2>
+<div class="products">
+    {% for product in products %}
+    <div class="product" style="border: 1px solid #ccc; padding: 1rem; margin: 1rem 0;">
+        <h3>{{ product.name }}</h3>
+        <p>Price: ₹{{ product.price }}</p>
+        <p>Stock: {{ product.stock_quantity }}</p>
+        <a href="/product/{{ product.id }}/">View Details</a>
+    </div>
+    {% empty %}
+    <p>No products available yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

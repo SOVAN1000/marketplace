@@ -1,0 +1,19 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<h2>Agricultural Products</h2>
+
+{% if products %}
+    {% for product in products %}
+    <div style='border: 1px solid #ddd; padding: 1rem; margin: 1rem 0;'>
+        <h3>{{ product.name }}</h3>
+        <p><strong>Price:</strong> ₹{{ product.price }}</p>
+        <p><strong>Stock:</strong> {{ product.stock_quantity }} units</p>
+        <a href='/products/{{ product.id }}/'>View Details</a>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No products available yet. Check back soon!</p>
+    <p><a href='/admin/'>Add products via admin</a></p>
+{% endif %}
+{% endblock %}

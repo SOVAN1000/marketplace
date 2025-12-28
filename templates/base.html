@@ -1,0 +1,634 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Hathazar - Agricultural Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Styles moved to static/css/style.css -->
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-seedling" aria-hidden="true"></i>
+                <h1>Online Hathazar</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'homepage' %}" class="{% if request.resolver_match and request.resolver_match.url_name == 'homepage' %}active{% endif %}">Home</a></li>
+                    <li><a href="{% url 'products' %}" class="{% if request.resolver_match and request.resolver_match.url_name == 'products' %}active{% endif %}">Products</a></li>
+                    <li><a href="#">Farmers</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    {% if not user.is_authenticated %}
+                    <li><a href="{% url 'login' %}" class="{% if request.resolver_match and request.resolver_match.url_name == 'login' %}active{% endif %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="nav-btn nav-btn-outline">Profile</a>
+                    <a href="{% url 'logout' %}" class="nav-btn nav-btn-primary">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-btn nav-btn-outline">Login</a>
+                    <a href="{% url 'register' %}" class="nav-btn nav-btn-primary">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    {% if messages %}
+    <div class="container messages" style="margin-top:1rem;">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <div style="display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+                <div>
+                    <h3 style="color:white;">Online Hathazar</h3>
+                    <p style="color:#ccc; max-width:380px;">Connecting farmers directly with consumers for fresh, high-quality produce.</p>
+                </div>
+                <div>
+                    <h3 style="color:white;">Quick Links</h3>
+                    <ul style="list-style:none; padding:0; color:#ccc;">
+                        <li><a href="{% url 'homepage' %}" style="color:#ccc;">Home</a></li>
+                        <li><a href="{% url 'products' %}" style="color:#ccc;">Products</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="text-align:center; color:#aaa; padding-top:20px;">&copy; {{ now|date:'Y' }} Online Hathazar</div>
+        </div>
+    </footer>
+
+    <script>
+        // Scoped JS only for product interactions - does NOT intercept nav clicks
+        document.addEventListener('DOMContentLoaded', function(){
+            const addBtns = document.querySelectorAll('.product-card .btn-outline');
+            addBtns.forEach(b=> b.addEventListener('click', function(e){
+                e.stopPropagation();
+                const card = this.closest('.product-card');
+                const name = card ? (card.querySelector('h3')?.textContent || 'Product') : 'Product';
+                alert(name + ' added to cart');
+            }));
+        });
+    </script>
+</body>
+</html>
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        
+        .search-bar button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        /* Why Choose Us Section */
+        .why-us {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        
+        .feature:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .feature h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        
+        .feature p {
+            color: var(--gray);
+        }
+        
+        /* Featured Products */
+        .featured-products {
+            padding: 80px 0;
+            background: var(--light);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            height: 200px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-info h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .product-info p {
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .product-price {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+        
+        .view-all {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary-light);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #bbb;
+            font-size: 14px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+            
+            .hero h2 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <h1>Online Hathazar</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'homepage' %}" class="{% if request.resolver_match and request.resolver_match.url_name == 'homepage' %}active{% endif %}">Home</a></li>
+                    <li><a href="{% url 'products' %}" class="{% if request.resolver_match and request.resolver_match.url_name == 'products' %}active{% endif %}">Products</a></li>
+                    <li><a href="#">Farmers</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    {# login link removed (duplicate) - header auth buttons remain visible #}
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="nav-btn nav-btn-outline">Profile</a>
+                    <a href="{% url 'logout' %}" class="nav-btn nav-btn-primary">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-btn nav-btn-outline" data-fallback>Login</a>
+                    <a href="{% url 'register' %}" class="nav-btn nav-btn-primary" data-fallback>Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2 class="hero-title">Your Trusted Agricultural Marketplace</h2>
+            <p class="hero-subtitle">Connecting farmers directly with consumers for fresh, high-quality produce at the best prices</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for fresh vegetables, fruits, and more...">
+                <button><i class="fas fa-search"></i> Search</button>
+            </div>
+
+            <div class="hero-cta">
+                <a href="{% url 'products' %}" class="btn btn-primary hero-cta-btn"><i class="fas fa-shopping-basket" aria-hidden="true"></i> Shop Fresh Now</a>
+                <a href="{% url 'products' %}" class="btn btn-outline hero-cta-ghost">Browse Products</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-us">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose Us?</h2>
+                <p>We're committed to providing the best agricultural marketplace experience</p>
+            </div>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Fresh Products</h3>
+                    <p>Direct from farmers to your home with guaranteed freshness and quality</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-tag"></i>
+                    <h3>Best Prices</h3>
+                    <p>Competitive prices without middlemen, ensuring fair value for both farmers and customers</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-shipping-fast"></i>
+                    <h3>Fast Delivery</h3>
+                    <p>Quick and reliable delivery service to get your products to you as fresh as possible</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Products</h2>
+                <p>Check out our most popular fresh products from local farmers</p>
+            </div>
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-carrot" style="font-size: 60px; color: #FF9800;"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Organic Tomato</h3>
+                        <p>Fresh, organic tomatoes grown locally without pesticides</p>
+                        <div class="product-price">¥80.00</div>
+                        <div class="product-meta">
+                            <span><i class="fas fa-box"></i> In Stock: 100</span>
+                            <span><i class="fas fa-star" style="color: #FFD700;"></i> 4.5</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-primary btn-sm">View Details</button>
+                            <button class="btn btn-outline btn-sm"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-apple-alt" style="font-size: 60px; color: #d32f2f;"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Fresh Apples</h3>
+                        <p>Sweet and crunchy apples from our mountain orchards</p>
+                        <div class="product-price">¥120.00</div>
+                        <div class="product-meta">
+                            <span><i class="fas fa-box"></i> In Stock: 75</span>
+                            <span><i class="fas fa-star" style="color: #FFD700;"></i> 4.7</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-primary btn-sm">View Details</button>
+                            <button class="btn btn-outline btn-sm"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-pepper-hot" style="font-size: 60px; color: #388e3c;"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Green Bell Peppers</h3>
+                        <p>Fresh green bell peppers, perfect for salads and cooking</p>
+                        <div class="product-price">¥65.00</div>
+                        <div class="product-meta">
+                            <span><i class="fas fa-box"></i> In Stock: 50</span>
+                            <span><i class="fas fa-star" style="color: #FFD700;"></i> 4.3</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-primary btn-sm">View Details</button>
+                            <button class="btn btn-outline btn-sm"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-cheese" style="font-size: 60px; color: #ffb300;"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Fresh Cheese</h3>
+                        <p>Artisanal cheese made from locally sourced milk</p>
+                        <div class="product-price">¥180.00</div>
+                        <div class="product-meta">
+                            <span><i class="fas fa-box"></i> In Stock: 30</span>
+                            <span><i class="fas fa-star" style="color: #FFD700;"></i> 4.8</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-primary btn-sm">View Details</button>
+                            <button class="btn btn-outline btn-sm"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="view-all">
+                <button class="btn btn-primary">View All Products</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Online Hathazar</h3>
+                    <p>Your trusted agricultural marketplace connecting farmers directly with consumers for fresh, high-quality produce.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Products</a></li>
+                        <li><a href="#">Farmers</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="#">Vegetables</a></li>
+                        <li><a href="#">Fruits</a></li>
+                        <li><a href="#">Dairy Products</a></li>
+                        <li><a href="#">Grains</a></li>
+                        <li><a href="#">Organic Products</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Farm Street, Agriculture City</li>
+                        <li><i class="fas fa-phone"></i> +1 234 567 8900</li>
+                        <li><i class="fas fa-envelope"></i> info@onlinehathazar.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Online Hathazar. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple script for interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add to cart buttons (scope to product cards to avoid interfering with header buttons)
+            const addToCartButtons = document.querySelectorAll('.product-card .btn-outline');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const card = this.closest('.product-card');
+                    if (!card) return; // safety
+                    const h3 = card.querySelector('h3');
+                    const productName = h3 ? h3.textContent : 'Product';
+                    alert(`${productName} added to cart!`);
+                });
+            });
+            
+            // View Details buttons
+            const viewDetailsButtons = document.querySelectorAll('.btn-primary.btn-sm');
+            viewDetailsButtons.forEach(button => {
+                if (!button.querySelector('.fa-shopping-cart')) {
+                    button.addEventListener('click', function() {
+                        const productName = this.closest('.product-card').querySelector('h3').textContent;
+                        alert(`Showing details for: ${productName}`);
+                    });
+                }
+            });
+            
+            // View All Products button
+            document.querySelector('.view-all .btn').addEventListener('click', function() {
+                alert('Redirecting to all products page...');
+            });
+
+            // Debug: log header and nav link clicks (non-intrusive)
+            document.querySelectorAll('.auth-buttons a, nav a').forEach(a => {
+                a.addEventListener('click', function(e) {
+                    console.log('NAV CLICK:', this.href, 'text:', this.textContent.trim(), 'defaultPrevented:', e.defaultPrevented);
+                }, { capture: true });
+            });
+
+            // Force navigation fallback for links with data-fallback (capture phase)
+            document.addEventListener('click', function(e){
+                const a = e.target.closest && e.target.closest('a[data-fallback]');
+                if(!a) return;
+                // Force navigation immediately and stop other handlers
+                window.location.href = a.href;
+                if (e.stopImmediatePropagation) try { e.stopImmediatePropagation(); } catch (err) {}
+                if (e.preventDefault) try { e.preventDefault(); } catch (err) {}
+            }, true);
+        });
+    </script>
+</body>
+</html>

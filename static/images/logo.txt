@@ -1,0 +1,3 @@
+This is where your HAMRO HATBAZAR logo image will be placed.
+Save your actual logo.png file in this location.
+ 

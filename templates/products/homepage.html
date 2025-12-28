@@ -1,0 +1,64 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<div style='text-align: center; margin-bottom: 3rem;'>
+    <h1 style='color: #2e7d32; font-size: 2.5rem;'>Welcome to Online Hatbazar</h1>
+    <p style='font-size: 1.2rem; color: #666;'>Your trusted agricultural marketplace</p>
+</div>
+
+<div style='background: #f5f5f5; padding: 2rem; border-radius: 10px; margin-bottom: 2rem;'>
+    <h2 style='color: #2e7d32;'>Why Choose Us?</h2>
+    <div style='display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 1rem;'>
+        <div style='text-align: center; padding: 1rem;'>
+            <h3>🌱 Fresh Products</h3>
+            <p>Direct from farmers to your home</p>
+        </div>
+        <div style='text-align: center; padding: 1rem;'>
+            <h3>💰 Best Prices</h3>
+            <p>Competitive prices without middlemen</p>
+        </div>
+        <div style='text-align: center; padding: 1rem;'>
+            <h3>🚚 Fast Delivery</h3>
+            <p>Quick and reliable delivery service</p>
+        </div>
+    </div>
+</div>
+
+<h2 style='color: #2e7d32; border-bottom: 2px solid #2e7d32; padding-bottom: 0.5rem;'>Featured Products</h2>
+
+{% if featured_products %}
+    <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;'>
+    {% for product in featured_products %}
+        <div style='border: 1px solid #ddd; border-radius: 10px; padding: 1.5rem; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1);'>
+            <h3 style='color: #2e7d32; margin-top: 0;'>{{ product.name }}</h3>
+            <p style='color: #666;'>{{ product.description|truncatewords:20 }}</p>
+            <div style='display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;'>
+                <div>
+                    <p style='font-size: 1.5rem; font-weight: bold; color: #e65100;'>₹{{ product.price }}</p>
+                    <p style='color: #666; font-size: 0.9rem;'>Stock: {{ product.stock_quantity }}</p>
+                </div>
+                <div>
+                    <a href='/products/{{ product.id }}/' style='background: #2e7d32; color: white; padding: 0.5rem 1rem; text-decoration: none; border-radius: 5px;'>View Details</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    
+    <div style='text-align: center; margin-top: 2rem;'>
+        <a href='/products/' style='background: #ff9800; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 5px; font-size: 1.1rem;'>View All Products</a>
+    </div>
+{% else %}
+    <div style='text-align: center; padding: 3rem; background: #f9f9f9; border-radius: 10px;'>
+        <h3 style='color: #666;'>No products available yet</h3>
+        <p>We're working on adding amazing products for you!</p>
+        <a href='/admin/' style='color: #2e7d32;'>Add products via admin</a>
+    </div>
+{% endif %}
+
+<div style='margin-top: 3rem; padding: 2rem; background: #e8f5e8; border-radius: 10px;'>
+    <h2 style='color: #2e7d32;'>For Farmers</h2>
+    <p>Are you a farmer? Join our platform to sell your products directly to customers!</p>
+    <a href='/accounts/register/' style='background: #2e7d32; color: white; padding: 0.75rem 1.5rem; text-decoration: none; border-radius: 5px;'>Register as Farmer</a>
+</div>
+{% endblock %}

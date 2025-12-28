@@ -1,0 +1,12 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ product.name }}</h2>
+<div style='border: 1px solid #ddd; padding: 2rem; margin: 1rem 0;'>
+    <p><strong>Description:</strong> {{ product.description }}</p>
+    <p><strong>Price:</strong> ₹{{ product.price }}</p>
+    <p><strong>Stock Available:</strong> {{ product.stock_quantity }} units</p>
+    <p><strong>Farmer:</strong> {{ product.farmer.username }}</p>
+    <a href='/products/'>Back to Products</a>
+</div>
+{% endblock %}

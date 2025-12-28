@@ -1,0 +1,28 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<h2>Your Profile</h2>
+
+<div style='border: 1px solid #ddd; padding: 2rem; border-radius: 10px; max-width: 600px;'>
+    <div style='margin-bottom: 1.5rem;'>
+        <h3 style='color: #2e7d32;'>User Information</h3>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Role:</strong> {{ user.role|title }}</p>
+        <p><strong>Member since:</strong> {{ user.date_joined|date:'F j, Y' }}</p>
+    </div>
+    
+    <div style='display: flex; gap: 1rem;'>
+        <a href='/products/' class='btn btn-green'>Browse Products</a>
+        <a href='/accounts/logout/' class='btn'>Logout</a>
+    </div>
+</div>
+
+{% if user.role == 'farmer' %}
+<div style='margin-top: 2rem; padding: 1.5rem; background: #e8f5e8; border-radius: 10px;'>
+    <h3 style='color: #2e7d32;'>Farmer Dashboard</h3>
+    <p>Welcome to your farmer dashboard! You can manage your products here.</p>
+    <a href='/admin/products/product/' class='btn'>Manage Products</a>
+</div>
+{% endif %}
+{% endblock %}
